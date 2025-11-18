@@ -4,22 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Summary</title>
+    
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font: Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
     <style>
+        /* --- THEME & COLORS --- */
         :root {
             --custom-blue: #4361EE;
             --header-bg: #FFFFFF;
             --card-bg: #FFFFFF;
             --border-light: #E0E0E0;
             --input-bg: #F0F0F0;
-            --text-black: #000000;
-            --text-label: #212121;
-            --text-blue: #4361EE;
+            --text-black: #000000; 
+            --text-label: #212121; 
+            --text-blue: #4361EE;  
         }
+        
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -28,12 +34,16 @@
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
         }
+
+        /* --- LAYOUT --- */
         .main-container {
-            min-height: 100vh;
+            min-height: 100vh; 
             display: flex;
             flex-direction: column;
             background-color: var(--header-bg);
         }
+
+        /* Header */
         .exam_name {
             padding: 24px 16px;
             text-align: center;
@@ -41,29 +51,33 @@
             justify-content: center;
             align-items: center;
             min-height: 80px;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0; 
         }
+        
         .exam_name h2 {
             font-size: 22px;
-            font-weight: 700;
+            font-weight: 500; /* Less bold title */
             line-height: 1.3;
             color: var(--text-black);
-            letter-spacing: -0.02em;
+            letter-spacing: -0.02em; 
             margin: 0;
         }
+        
         .exam_name a {
             text-decoration: none;
             color: inherit;
             cursor: text;
         }
+
         .content-section {
             background-color: var(--custom-blue);
-            flex-grow: 1;
-            padding: 32px 16px 120px 16px;
+            flex-grow: 1; 
+            padding: 32px 16px 120px 16px; 
             display: flex;
             justify-content: center;
             align-items: flex-start;
         }
+
         .exam_summary_grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -71,6 +85,7 @@
             width: 100%;
             max-width: 1280px;
         }
+
         @media (min-width: 768px) {
             .exam_summary_grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -79,6 +94,8 @@
                 padding: 32px;
             }
         }
+
+        /* --- CARDS (Using specific class names to match JS) --- */
         .res-col {
             background: var(--card-bg);
             border-radius: 8px;
@@ -88,49 +105,69 @@
             flex-direction: column;
             padding: 8px 0;
         }
+
+        /* Rows */
         .exam_table_item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 24px;
-            border-bottom: 1px solid var(--border-light);
+            padding: 10px 24px; /* Compact spacing */
+            position: relative;
         }
-        .exam_table_item:last-child {
-            border-bottom: none;
+        
+        /* Custom separator line not touching edges */
+        .exam_table_item.has-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 24px;
+            right: 24px;
+            height: 1px;
+            background-color: var(--border-light);
         }
+
+        /* Text Styles */
         .exam_qs_title {
             font-size: 17px;
-            font-weight: 700;
+            font-weight: 900; /* Bolder side headings */
             color: var(--text-label);
-            letter-spacing: -0.015em;
+            letter-spacing: -0.015em; 
             margin: 0;
         }
+
         .res_num {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             margin: 0;
         }
-        .exam_num_item, .exam_min_duration, .exam_min_taken {
+
+        .exam_num_item {
             font-size: 34px;
             font-weight: 700;
-            color: var(--text-black);
+            color: var(--text-black); 
             line-height: 1;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.02em; 
         }
+
         .exam_result_header {
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 900; /* Bolder sub-marks */
             color: var(--text-blue);
-            margin-top: 5px;
+            margin-top: 5px; 
             white-space: nowrap;
             letter-spacing: 0.01em;
             cursor: default;
         }
+
+        /* Special styles for Duration/Time Taken */
         .exam_min_duration, .exam_min_taken {
             font-size: 17px;
+            font-weight: 700;
             color: var(--text-blue);
         }
+
+        /* --- CONTROL BAR --- */
         #control-bar {
             position: fixed;
             bottom: 0;
@@ -145,13 +182,14 @@
             box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.1);
             z-index: 50;
         }
+
         .control-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             padding: 10px 24px;
-            border-radius: 8px;
+            border-radius: 8px; 
             font-family: 'Roboto', sans-serif;
             font-weight: 700;
             font-size: 16px;
@@ -161,30 +199,29 @@
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             transition: transform 0.1s, filter 0.2s;
         }
-        .control-btn:hover {
-            filter: brightness(110%);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .control-btn:active {
-            transform: translateY(0);
-        }
+
+        .control-btn:hover { filter: brightness(110%); transform: translateY(-1px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .control-btn:active { transform: translateY(0); }
+        
         .btn-purple { background-color: #9333ea; }
         .btn-blue { background-color: #2563eb; }
         .btn-green { background-color: #16a34a; }
+
+        /* --- EDIT INPUTS --- */
         .edit-input {
             background-color: var(--input-bg);
             border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 0 4px;
+            border-radius: 4px; 
+            padding: 0 4px; 
             color: var(--text-blue);
-            font-weight: 700;
+            font-weight: 700; 
             text-align: center;
             width: 48px;
             font-size: 13px;
             font-family: 'Roboto', sans-serif;
             height: 22px;
         }
+        
         .title-input-text, .title-input-num {
             background-color: var(--input-bg);
             border: 1px solid #ccc;
@@ -192,59 +229,56 @@
             padding: 2px 6px;
             color: var(--text-black);
             font-weight: 700;
-            font-size: 22px;
+            font-size: 22px; 
             font-family: 'Roboto', sans-serif;
         }
         .title-input-text { text-align: center; min-width: 150px; }
         .title-input-num { text-align: center; width: 50px; }
+        
         .exam_name_edit_wrapper {
             display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px;
         }
-        body.taking-screenshot #control-bar {
-            display: none !important;
-        }
-        body.taking-screenshot .main-container {
-            min-height: 0 !important;
-            height: auto !important;
-        }
-        body.taking-screenshot .content-section {
-            padding-bottom: 32px !important;
-            flex-grow: 0 !important;
-        }
+
+        /* --- SCREENSHOT MODE --- */
+        body.taking-screenshot #control-bar { display: none !important; }
+        body.taking-screenshot .main-container { min-height: 0 !important; height: auto !important; }
+        body.taking-screenshot .content-section { padding-bottom: 32px !important; flex-grow: 0 !important; }
     </style>
 </head>
-<body>
+<body> 
     <div id="app" class="main-container"></div>
+
     <div id="control-bar">
-        <button onclick="randomizeData()" class="control-btn btn-purple">
-            Random 🔄
-        </button>
-        <button onclick="toggleEditMode()" id="edit-btn" class="control-btn btn-blue">
-            Edit ✏️
-        </button>
-        <button onclick="takeScreenshot()" class="control-btn btn-green">
-            Screenshot 📸
-        </button>
+        <button onclick="randomizeData()" class="control-btn btn-purple">Random 🔄</button>
+        <button onclick="toggleEditMode()" id="edit-btn" class="control-btn btn-blue">Edit ✏️</button>
+        <button onclick="takeScreenshot()" class="control-btn btn-green">Screenshot 📸</button>
     </div>
+
     <script>
+        // --- CONSTANTS ---
         const CONSTANTS = {
-            totalQsA: 15,
-            totalQsB: 15,
+            totalQsA: 15, 
+            totalQsB: 15, 
             marksPerA: 1,
             marksPerB: 2,
-            duration: 90
+            duration: 90 
         };
+
+        // --- STATE ---
         let state = {
             subjectName: "Theory of Computation",
-            testNumber: 1,
-            testType: "Subject Wise Test",
-            attA: 14, corrA: 13,
+            testNumber: 1, 
+            testType: "Subject Wise Test", 
+            attA: 14, corrA: 13, 
             attB: 14, corrB: 13,
-            timeTaken: 89,
+            timeTaken: 89, 
             isEditing: false
         };
+
+        // --- HELPERS ---
         const smartRound = (num) => Number(num.toFixed(2));
         const formatNum = (num) => (Number.isInteger(num) ? num : (smartRound(num) % 1 === 0 ? smartRound(num) : smartRound(num).toFixed(2)));
+
         const calculateStats = (s) => {
             const incA = s.attA - s.corrA;
             const incB = s.attB - s.corrB;
@@ -255,17 +289,19 @@
             const penB = smartRound(incB * (CONSTANTS.marksPerB / 3));
             const totalPenaltyMarks = smartRound(penA + penB);
             const resultantMarks = smartRound(totalCorrectMarks - totalPenaltyMarks);
+
             const renderSub = (valA, valB, keyA, keyB, isEditable) => {
                 if (isEditable) {
                     return `<div style="display:flex; align-items:center; justify-content:flex-end; gap:4px;">
-                        <input type="number" class="edit-input" value="${valA}" onkeydown="handleEnter(event)" data-key="${keyA}">
-                        <span>+</span>
+                        <input type="number" class="edit-input" value="${valA}" onkeydown="handleEnter(event)" data-key="${keyA}"> 
+                        <span>+</span> 
                         <input type="number" class="edit-input" value="${valB}" onkeydown="handleEnter(event)" data-key="${keyB}">
                     </div>`;
                 }
                 return `<span class="exam_result_header_one" title="1 Mark">${valA}</span>
                         + <span class="exam_result_headrer_two" title="2 Marks">${valB}</span>`;
             };
+
             return {
                 subjectName: s.subjectName,
                 testNumber: s.testNumber,
@@ -280,13 +316,13 @@
                 },
                 incorrectAttempts: {
                     total: incA + incB,
-                    sub: isEditing => isEditing
-                        ? `${incA} + ${incB}`
+                    sub: isEditing => isEditing 
+                        ? `${incA} + ${incB}` 
                         : `<span class="exam_result_header_one" title="1 Mark">${incA}</span> + <span class="exam_result_headrer_two" title="2 Marks">${incB}</span>`
                 },
                 correctMarks: {
-                    total: formatNum(totalCorrectMarks),
-                    sub: isEditing => isEditing
+                    total: formatNum(totalCorrectMarks), 
+                    sub: isEditing => isEditing 
                          ? `${formatNum(scoreA)} + ${formatNum(scoreB)}`
                          : `<span class="exam_result_header_one" title="1 Mark">${formatNum(scoreA)}</span> + <span class="exam_result_headrer_two" title="2 Marks">${formatNum(scoreB)}</span>`
                 },
@@ -297,7 +333,7 @@
                         : `<span class="exam_result_header_one" title="1 Mark">${formatNum(penA)}</span> + <span class="exam_result_headrer_two" title="2 Marks">${formatNum(penB)}</span>`
                 },
                 resultantMarks: {
-                    total: formatNum(resultantMarks),
+                    total: formatNum(resultantMarks), 
                     sub: isEditing => isEditing
                         ? `${formatNum(scoreA - penA)} + ${formatNum(scoreB - penB)}`
                         : `<span class="exam_result_header_one" title="1 Mark">${formatNum(scoreA - penA)}</span> + <span class="exam_result_headrer_two" title="2 Marks">${formatNum(scoreB - penB)}</span>`
@@ -314,8 +350,11 @@
                 timeTaken: `${CONSTANTS.duration - 1} Minutes`
             };
         };
-        const ExamTableItem = ({ label, value, subValue }) => `
-            <div class="exam_table_item">
+
+        // --- RENDER FUNCTIONS (Using Source Code Classes for CSS Mapping) ---
+        
+        const ExamTableItem = ({ label, value, subValue, hasBorder }) => `
+            <div class="exam_table_item ${hasBorder ? 'has-border' : ''}">
                 <p class="exam_qs_title">${label}</p>
                 <p class="res_num">
                     <span class="exam_num_item">${value}</span>
@@ -323,18 +362,22 @@
                 </p>
             </div>
         `;
-        const ExamSimpleItem = ({ label, value, valueClass }) => `
-            <div class="exam_table_item">
+
+        const ExamSimpleItem = ({ label, value, valueClass, hasBorder }) => `
+            <div class="exam_table_item ${hasBorder ? 'has-border' : ''}">
                 <p class="exam_qs_title">${label}</p>
                 <p class="res_num">
                     <span class="${valueClass}">${value}</span>
                 </p>
             </div>
         `;
+
         const ResCol = (content, classExtra = "") => `<div class="${classExtra} res-col">${content}</div>`;
+
         const renderApp = () => {
             const app = document.getElementById('app');
             const data = calculateStats(state);
+            
             let headerContent;
             if (state.isEditing) {
                 headerContent = `
@@ -348,19 +391,26 @@
             } else {
                 headerContent = `<h2><a href="#">Exam Summary (GO Classes CS Test Series 2026 | ${data.subjectName} | ${data.testType} ${data.testNumber})</a></h2>`;
             }
-            const card1 =
-                ExamTableItem({ label: "Qs. Attempted: ", value: data.qsAttempted.total, subValue: data.qsAttempted.sub }) +
-                ExamTableItem({ label: "Correct Attempts: ", value: data.correctAttempts.total, subValue: data.correctAttempts.sub }) +
-                ExamTableItem({ label: "Incorrect Attempts: ", value: data.incorrectAttempts.total, subValue: data.incorrectAttempts.sub(state.isEditing) });
-            const card2 =
-                ExamTableItem({ label: "Correct Marks: ", value: data.correctMarks.total, subValue: data.correctMarks.sub(state.isEditing) }) +
-                ExamTableItem({ label: "Penalty Marks: ", value: data.penaltyMarks.total, subValue: data.penaltyMarks.sub(state.isEditing) }) +
-                ExamTableItem({ label: "Resultant Marks: ", value: data.resultantMarks.total, subValue: data.resultantMarks.sub(state.isEditing) });
-            const card3 =
-                ExamTableItem({ label: "Total Questions:", value: data.totalQs.total, subValue: data.totalQs.sub }) +
-                ExamTableItem({ label: "Total Marks:", value: data.totalMarks.total, subValue: data.totalMarks.sub }) +
-                ExamSimpleItem({ label: "Exam Duration:", value: data.duration, valueClass: "exam_min_duration" }) +
-                ExamSimpleItem({ label: "Time Taken: ", value: data.timeTaken, valueClass: "exam_min_taken" });
+
+            // Card 1
+            const card1 = 
+                ExamTableItem({ label: "Qs. Attempted: ", value: data.qsAttempted.total, subValue: data.qsAttempted.sub, hasBorder: true }) +
+                ExamTableItem({ label: "Correct Attempts: ", value: data.correctAttempts.total, subValue: data.correctAttempts.sub, hasBorder: true }) +
+                ExamTableItem({ label: "Incorrect Attempts: ", value: data.incorrectAttempts.total, subValue: data.incorrectAttempts.sub(state.isEditing), hasBorder: false });
+
+            // Card 2
+            const card2 = 
+                ExamTableItem({ label: "Correct Marks: ", value: data.correctMarks.total, subValue: data.correctMarks.sub(state.isEditing), hasBorder: true }) +
+                ExamTableItem({ label: "Penalty Marks: ", value: data.penaltyMarks.total, subValue: data.penaltyMarks.sub(state.isEditing), hasBorder: true }) +
+                ExamTableItem({ label: "Resultant Marks: ", value: data.resultantMarks.total, subValue: data.resultantMarks.sub(state.isEditing), hasBorder: false });
+
+            // Card 3
+            const card3 = 
+                ExamTableItem({ label: "Total Questions:", value: data.totalQs.total, subValue: data.totalQs.sub, hasBorder: true }) +
+                ExamTableItem({ label: "Total Marks:", value: data.totalMarks.total, subValue: data.totalMarks.sub, hasBorder: true }) +
+                ExamSimpleItem({ label: "Exam Duration:", value: data.duration, valueClass: "exam_min_duration", hasBorder: true }) +
+                ExamSimpleItem({ label: "Time Taken: ", value: data.timeTaken, valueClass: "exam_min_taken", hasBorder: false });
+
             app.innerHTML = `
                 <div class="exam_summary">
                     <div class="exam_name">${headerContent}</div>
@@ -373,11 +423,15 @@
                     </div>
                 </div>
             `;
+            
             const editBtn = document.getElementById('edit-btn');
             if(editBtn) editBtn.innerHTML = state.isEditing ? "Save ✅" : "Edit ✏️";
         };
+
+        // --- LOGIC & EVENTS ---
         const toggleEditMode = () => { if (state.isEditing) saveFromInputs(); else { state.isEditing = true; renderApp(); } };
         const handleEnter = (e) => { if (e.key === "Enter") saveFromInputs(); };
+
         const saveFromInputs = () => {
             const inputs = document.querySelectorAll('input[data-key]');
             let tempState = { ...state };
@@ -387,31 +441,38 @@
                 else if (key === 'testNumber') tempState.testNumber = parseInt(input.value) || 0;
                 else tempState[key] = parseInt(input.value) || 0;
             });
+
             if (tempState.attA > CONSTANTS.totalQsA || tempState.attB > CONSTANTS.totalQsB) { alert(`Attempts cannot exceed total questions.`); renderApp(); return; }
             if (tempState.corrA > tempState.attA || tempState.corrB > tempState.attB) { alert(`Correct answers cannot exceed attempts.`); renderApp(); return; }
+
             const incA = tempState.attA - tempState.corrA;
             const incB = tempState.attB - tempState.corrB;
             const score = (tempState.corrA * CONSTANTS.marksPerA) + (tempState.corrB * CONSTANTS.marksPerB);
             const pen = (incA * (CONSTANTS.marksPerA/3)) + (incB * (CONSTANTS.marksPerB/3));
             const resultant = score - pen;
+
             if (incA === 0 && incB === 0) { alert("Must have at least one incorrect attempt."); renderApp(); return; }
             if (score > 39) { alert(`Correct Marks (${score}) cannot exceed 39.`); renderApp(); return; }
             if (resultant < 30 || resultant > 39) { alert(`Resultant Marks (${resultant.toFixed(2)}) must be between 30 and 39.`); renderApp(); return; }
+
             state = { ...tempState, isEditing: false };
             renderApp();
         };
+
         const randomizeData = () => {
             let isValid = false;
             while (!isValid) {
                 const rCorrA = Math.floor(Math.random() * (CONSTANTS.totalQsA + 1));
                 const rCorrB = Math.floor(Math.random() * (CONSTANTS.totalQsB + 1));
                 const score = (rCorrA * CONSTANTS.marksPerA) + (rCorrB * CONSTANTS.marksPerB);
-                if (score > 39) continue;
+                if (score > 39) continue; 
+                
                 const remA = CONSTANTS.totalQsA - rCorrA;
                 const remB = CONSTANTS.totalQsB - rCorrB;
                 const rIncA = Math.floor(Math.random() * (remA + 1));
                 const rIncB = Math.floor(Math.random() * (remB + 1));
                 if (rIncA === 0 && rIncB === 0) continue;
+
                 const pen = (rIncA * (CONSTANTS.marksPerA/3)) + (rIncB * (CONSTANTS.marksPerB/3));
                 const resultant = score - pen;
                 if (resultant >= 30 && resultant <= 39) {
@@ -421,20 +482,29 @@
             }
             renderApp();
         };
+
         const takeScreenshot = () => {
             if (state.isEditing) { alert("Please save edits first."); return; }
             document.body.classList.add('taking-screenshot');
             const titleText = `${state.subjectName} ${state.testType} ${state.testNumber}`;
             const safeFilename = titleText.replace(/[|]/g, '-').replace(/[\n\r]/g, ' ').trim();
-            html2canvas(document.querySelector(".exam_summary"), { scrollY: -window.scrollY, useCORS: true, scale: 2, backgroundColor: null })
-                .then(canvas => {
-                    document.body.classList.remove('taking-screenshot');
-                    const link = document.createElement('a');
-                    link.download = `${safeFilename}.png`;
-                    link.href = canvas.toDataURL();
-                    link.click();
-                });
+            
+            // Explicitly set backgroundColor to white to prevent transparency issues
+            html2canvas(document.querySelector(".exam_summary"), { 
+                scrollY: -window.scrollY, 
+                useCORS: true, 
+                scale: 2, 
+                backgroundColor: "#ffffff" 
+            })
+            .then(canvas => {
+                document.body.classList.remove('taking-screenshot');
+                const link = document.createElement('a');
+                link.download = `${safeFilename}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
         };
+
         renderApp();
     </script>
 </body>
